@@ -1,0 +1,16 @@
+General unix commands,Description
+cd,Change dir
+cd ../,Go one directory up
+mkdir,Make a new directory
+rm *,Remove / delete a file
+rm -r,Remove a whole folder with all contents (use -rf to also stop it from asking questions)
+ls,List contents of directory (add -lh to make it formatted nicely for humans! “ls -lh”
+cp -r,Copy a whole folder with all contents. Ex; Copying a folder from scratch1 to arc1 cp -R /scratch1/A11263 /arc1/
+dir,List the folders in the current directory
+df,Show information on file system (essentially for checking file storage usage)
+df -h ,to make it human readable (show GB or MB instead of bytes)
+Space_check,Custom script that we have made to show storage usage by use on a specific drive. Ex; space_check /scratch1/ will reveal which users are the biggest space offenders
+du,"disk usage. Very helpful command to help you see the size of an entire folder tree in linux. Ex: If you have a big project, you could navigate to it, and type ""du -h"" and it will list all the subfolders and how much space is used in them. "
+du -h -d 1,"you can use du to look at things across a whole bunch of projects 
+Ex; for a list of the disk usage on all of the scratch1 projects, you could  type ""du -h -d 1 /scratch1"" (-d  1, depth 1 means it only tells you the top folder size). "
+or just google for linux/unix commands,

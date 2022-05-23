@@ -1,0 +1,7 @@
+Drive,What we use it for
+Spare,"This is where we put our large modelling files for a project. E.g. if you’re running a TUFLOWFV model that has a 20gb boundary condition, all these BC’s should live on spare/projects// Generally we copy the folder structure that we have on our own network drives on spare to keep things simple."
+Scratch1/Scratch2,This is where we write our modelling results to. These are big drives that the blaydos nodes can access quickly so they’re perfecft for writing results on. Generally we use the following structure:/scratch1///output
+/mnt/coastal,"These are network mounts to our Brisbane Drives. Use these to access files on the Brisbane server, but only use it for small files (e.g. model text files). All big files you need should be on Blaydos (spare drive, etc.)"
+/mnt/catchments,“same as above”
+/mnt/oceanics,“same as above”
+/arc1/,"Our long-term storage archive. You can store FINAL model results on here if they need to be kept. Don’t use this drive for working on during a project, it is intended as a cold storage drive. It’s not particularly fast to access compared to the scratch drives."

@@ -1,0 +1,5 @@
+Modelling specific commands    ,Description
+Qstat,Get information on currently running models in the queue (-a for human readable data)
+freenodes,Get information on the node usage
+qsub,Submit a model to the queue. Requires all files to be accessible by Blaydos!
+tsub,"Wrapper script of qsub that will also copy files for you. Only use this for copying small files at runtime (<10mb preferably)! If you have large files that the model relies on, they should already be copied over onto blaydos somewhere."

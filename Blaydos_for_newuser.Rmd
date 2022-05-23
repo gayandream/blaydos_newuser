@@ -1,0 +1,296 @@
+---
+#title: Blaydos for a new user
+#author: "Gayan Gunaratne"
+#date: "`r Sys.Date()`"
+#output: 
+  #bookdown::html_document2:
+  #fig_caption: TRUE
+  #number_sections: TRUE
+  #global_numbering: true
+  
+title: "Blaydos for a new user"
+author: "Gayan Gunaratne"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output:
+    bookdown::html_document2:
+        theme: spacelab
+        highlight: espresso
+        toc: true
+        toc_float: true  
+  
+  
+---
+
+
+```{r lib, include=FALSE}
+# load the ncdf4 package
+library(ncdf4)
+library(knitr)
+library(DT)
+library(here)
+```
+
+# Setting up an account
+
+
+Please contact the Blaydos Admin to create an account first. Alex Waterhouse and Jaap Van Der Velde are currently taking care of the blaydos and they are doing an excellent job.
+\
+Once the account is created, you will get an email with your login details from the admin.
+\
+For example, my details are:
+\
+(**user**) gayan.gunaratne
+\
+(**pwd**) welcome1
+
+Then, please change your password using the commands “**yppasswd**” and “**smbpasswd**”. You need to run both commands for the windows networks to integrate properly into blaydos.
+\
+It is recommended that setting your Blaydos password to match your windows password because it can get confusing tracking which password to use.
+\
+So whenever you change your windows password please change blaydos password using above two commands.
+\
+Ex;type "**yppasswd**", hit enter and enter your old password and then new password 
+\
+Do the same with "**smbpasswd**". Then you are good to go.
+\
+\
+Please note, this is not a unified guide but just a 'cheat-sheet' in html format that I prepared based on some information I've got from Alex and other blaydos users.
+\
+I created this for me, however feel free to save it somewhere and bookmark in your chrome/Firefox if this is helpful.
+
+
+# Resources
+
+If you have questions on blaydos again I'm not the best person to answer them. I have list below some useful resources.
+\
+1. **Alex** (`r emo::ji("email")`alexander.waterhouse@bmtglobal.com) & **Jaap** (`r emo::ji("email")`jaap.vandervelde@bmtglobal.com)
+\
+2. **Blaydos users** channel in MS Teams
+\
+3. Your fellow modellers
+
+
+# Some useful commands
+
+## General unix commands
+
+```{r cmd_table, echo=FALSE}
+cmd_table<-read.csv("data/gen_commands.csv",header=TRUE)
+#head(cmd_table)
+datatable(cmd_table,caption = 'Table 3.1: General unix commands',colnames = c('Command', 'Description'),class = 'cell-border stripe')
+```
+
+## Modelling specific commands
+
+```{r mod_table, echo=FALSE}
+mod_table<-read.csv("data/mod_commands.csv",header=TRUE)
+datatable(mod_table,caption = 'Table 3.2: Modelling specific commands',colnames = c('Command', 'Description'),class = 'cell-border stripe')
+```
+
+
+# Drives
+
+## Your Home Drive (/home/<username>)
+\
+Every user on Blaydos has a home drive (**“cd ~” or “cd /home/gayan.gunaratne”**). 
+\
+You can store small files on here (e.g. commonly used scripts, python project directories, etc.). 
+\
+Do not store large files here. Every user can access every other user’s home drive, so don’t store sensitive info there
+\
+(although no one will really look in these folders). 
+\
+
+## Network Drives
+
+
+```{r drv_table, echo=FALSE}
+drv_table<-read.csv("data/drives.csv",header=TRUE)
+datatable(drv_table,caption = 'Table 4.2: Network drives',colnames = c('Drive', 'What we use it for
+'),class = 'cell-border stripe')
+```
+
+
+ 
+It is every user’s responsibly to clean up their projects when they can. 
+\
+We unfortunately run out of space quite often on Blaydos due to the nature of modelling (we make lots of data quickly…) 
+\
+so please try and delete or move files whenever possible. 
+
+
+
+# Running models
+
+We have two commonly used copies of TUFLOW FV on blaydos. 
+\
+These can be accessed by calling “tuflowfv_trunk” or “tuflowfv_dev”. 
+\
+They are used in the same fashion that tuflow_fv is normally called, however you’d typically call it from a PBS script. 
+\
+A PBS script is similar to a .sh (or .bat) file that is used to submit a model to a queue. 
+\
+
+**General format as follows (e.g. “run_model.pbs”):**
+\
+<span style="color:blue;"> 
+#PBS -M alexander.waterhouse@bmtglobal.com   - Put your email here to get a good or bad news email when your model has finished or crashed
+\
+#PBS -m aeb
+\
+#PBS -N GladAlpha_diff_v5_q5   - This is the name that will show up on “qstat”.
+\
+#PBS -l walltime=200:00:00 
+\
+#PBS -l nodes=1:ppn=16   - Set this to the number of cores you want to use. Generally we use the max available (“freenodes” to see the max available)
+\
+#PBS -q batch    - Set this to the queue you want to submit to (“murali”, “batch”, “fast”, sometimes “special”)
+\
+\
+cd $ PBS_O_WORKDIR
+\
+export OMP_NUM_THREADS=$PBS_NUM_PPN
+\
+ulimit -s unlimited
+\
+\
+tuflowfv_trunk diffuser_v5_Jun2020_Jul2020_OricaAlt.fvc   - PUT YOUR MODELS HERE
+\
+</span>
+
+
+# Tips:
+
+## Auto-completion
+
+•	Hit “**TAB**” once for auto-completion (i.e. start writing a folder name and pressing TAB will auto-complete it for you)
+\
+•	When you’re using **cd** to move to a new directory, you can double press “**TAB**” key to get a list of the current folders inside the directory which can help you decide where to go
+
+ 
+
+## Blaydos IP Address:
+\
+<span style="color:blue;"> **\\\10.59.66.10**</span>
+
+
+## Live update of script output
+\
+watch -n 5 tail /filepath to log file
+\
+The 5 denotes the refresh rate in seconds
+\
+Ctrl + c to exit
+\
+https://www.linux.com/training-tutorials/14-tail-and-head-commands-linuxunix/
+\
+https://www.tecmint.com/run-repeat-linux-command-every-x-seconds/
+\
+
+## Multiple screen instances on MobaXterm - Blaydos
+
+New screen session of Blaydos associated with your account
+\
+screen -S name1
+\
+\
+To exit the screen (attach, then detatch)
+\
+Ctrl + a, Ctrl + d
+\
+\
+To see what screens you have open
+\
+screen -ls
+\
+\
+To re-enter an existing screen
+\
+screen -r name1
+\
+\
+To close an existing screen
+\
+Switch to screen you wish to remove
+\
+Ctrl + d
+
+
+
+## MATLAB on Blaydos
+
+matlab -nodisplay'
+\
+OR
+\
+matlab &
+\
+\
+For -nodisplay, it's easiest to navigate to directory containing your script and run by entering the script name.
+\
+Edit in text editor and run in MobaXterm
+\
+\
+exit to exit and resume to terminal input
+\
+\
+Check MATLAB install: which matlab
+\
+\
+Check MATLAB version: ls -lh <directory from which matlab output>
+
+
+## Running on Murali
+
+Note: generally 4-5 × slower than Blaydos. Get in touch with Toby first to request a few nodes to be turned on. Generally turned off to save power.
+\
+\
+Changes to PBS file:
+\
+#PBS -q batch
+\
+to:
+\
+#PBS -q murali
+\
+\
+#PBS -l nodes=1:ppn=16
+\
+to:
+\
+#PBS -l nodes=1:ppn=8
+\
+
+## Available Nodes
+
+Provides output that summarises availability of nodes on Blaydos, Murali and Silver
+\
+freenodes
+\
+
+
+## Designate Node for Run
+Allows flexibility in designating nodes to allocate runs to, and can also allow you to define how many cores to split up the run on. 
+\
+For example, using this method you can submit two individual runs to the same node, to run in parallel, each with 8 cores. Can also be useful to queue runs to a particular node if nodes are at a premium.
+\
+\
+Changes to PBS file:
+\
+#PBS -l nodes=1:ppn=16
+\
+to:
+\
+#PBS -l nodes=node10:ppn=16
+\
+ 
+
+## Delete folders/files with numeric values within a certain range
+
+rm -r [1-9]*
+ 
+## Query file sizes in directory
+
+ls -l -h
+
